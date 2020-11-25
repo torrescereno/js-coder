@@ -1,4 +1,5 @@
 function saludo() {
+    
     let nombre = prompt('Ingresa tu nombre :)');
     let saludo = "Hola " + nombre + " !"; 
 
@@ -26,6 +27,7 @@ function suma(){
 }
 
 function alerta(){
+
     let text1 = prompt('Ingresa el primer texto:');
     let text2 = prompt('Ingresa el segundo texto:');
 
