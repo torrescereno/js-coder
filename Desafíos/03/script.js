@@ -11,14 +11,12 @@ function fun() {
     for (let i = 0; i < dias.length; i++) {
 
         let dia = dias[i];
-    
-        if (cont % 2 === 0) {
-            console.log(`El día ${dia}, es par ${cont}`);
-        }else if (cont === 7) {
+
+        if (i % 2 === 1) {
+            console.log(`El día ${dia}, es par ${i + 1}`);
+        } else if (i === 6) {
             alert(`Es ${dia}!! tomate un descanso :)`)
         }
-
-        cont ++;
     };
 
 }
@@ -33,7 +31,7 @@ fun();
 
         let dia = dias[i];
         let flag = false;
-    
+
         switch (cont) {
             case 2:
                 flag = true;
@@ -53,7 +51,7 @@ fun();
         }
 
         cont ++;
-    };   
+    };
 }
 
 funSwitch(); */
