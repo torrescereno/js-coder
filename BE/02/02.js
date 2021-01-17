@@ -1,15 +1,18 @@
-"use strict";
-const pathModule = './01.js';
-class Calculo {
+export class Calculo {
     constructor(valor1, valor2, tipo) {
         this.valor1 = valor1;
         this.valor2 = valor2;
         this.tipo = tipo;
     }
-    operaciones() {
-        import(pathModule)
-            .then(module => console.log(module.operacion(this.valor1, this.valor2, this.tipo)));
+    resultado() {
+        if (this.tipo === 'suma') {
+            return this.valor1 + this.valor2;
+        }
+        else if (this.tipo === 'resta') {
+            return this.valor1 - this.valor2;
+        }
+        else {
+            return 'Operacion no permitida';
+        }
     }
 }
-const calculo = new Calculo(1, 2, "suma");
-calculo.operaciones();

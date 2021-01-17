@@ -1,6 +1,4 @@
-const pathModule = './01.js';
-
-class Calculo {
+export class Calculo {
 
     private valor1: number;
     private valor2: number;
@@ -13,13 +11,15 @@ class Calculo {
         this.tipo = tipo;
     }
 
-    public operaciones() {
+    public resultado() {
+
+        if(this.tipo === 'suma'){
+            return this.valor1 + this.valor2;
+        }else if(this.tipo === 'resta'){
+            return this.valor1 - this.valor2;
+        }else{
+            return 'Operacion no permitida';
+        }
     
-        import(pathModule)
-            .then(module => console.log(module.operacion(this.valor1,this.valor2,this.tipo)));
     }
 } 
-
-const calculo = new Calculo(1,2,"suma")
-
-calculo.operaciones();
