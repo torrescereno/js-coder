@@ -4,3 +4,6 @@
 #
 ### 1. Principios de Programación en Javascript y ES6
 * Archivos ES5 y ES6
+
+### 1. Nuevas funcionalidades de los lenguajes EcmaScript y Typescript
+* Archivo 
