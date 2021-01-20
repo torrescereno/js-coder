@@ -2,24 +2,38 @@ function mensaje() {
     console.log("proceso completo");
 }
 
-function imprimir(texto:string, cb:Function, tiempo:number = 1000) {
+function imprimir(texto: string, cb: Function, tiempo: number = 1000) {
 
     let index = 0;
-    let interval = setInterval(function(){
-        console.log(texto[index++])
-        if (index === texto.length) {
+
+    let interval = setInterval(function (palabra) {
+
+        palabra = texto.split(" ")
+
+        console.log(palabra[index++])
+
+        if (index === palabra.length) {
+
             clearInterval(interval);
-            cb();
+            const count: number = palabra.length
+            cb(count);
+
         }
-    }, tiempo);
-    
+
+    }, tiempo, texto);
+
 }
 
-imprimir('PalabraUno', () => {
-    imprimir('PalabraDos', () => {
-        imprimir('PalabraTres',() =>{
+
+imprimir('Primera frase', (count: number) => {
+    let contPalabras = count;
+    imprimir('Segunda frase', (count: number) => {
+        contPalabras += count;
+        imprimir('Tercera frase', (count: number) => {
+            contPalabras += count;
+            console.log(`Total de palabras: ${contPalabras}`)
             mensaje();
-        });
-    }, 1000);
-}, 1000);
+        }, 500);
+    }, 500);
+}, 500);
 

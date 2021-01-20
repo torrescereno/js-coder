@@ -1,21 +1,27 @@
+"use strict";
 function mensaje() {
     console.log("proceso completo");
 }
-function imprimir(texto, cb, tiempo) {
-    if (tiempo === void 0) { tiempo = 1000; }
-    var index = 0;
-    var interval = setInterval(function () {
-        console.log(texto[index++]);
-        if (index === texto.length) {
+function imprimir(texto, cb, tiempo = 1000) {
+    let index = 0;
+    let interval = setInterval(function (palabra) {
+        palabra = texto.split(" ");
+        console.log(palabra[index++]);
+        if (index === palabra.length) {
             clearInterval(interval);
-            cb();
+            const count = palabra.length;
+            cb(count);
         }
-    }, tiempo);
+    }, tiempo, texto);
 }
-imprimir('PalabraUno', function () {
-    imprimir('PalabraDos', function () {
-        imprimir('PalabraTres', function () {
+imprimir('Primera frase', (count) => {
+    let contPalabras = count;
+    imprimir('Segunda frase', (count) => {
+        contPalabras += count;
+        imprimir('Tercera frase', (count) => {
+            contPalabras += count;
+            console.log(`Total de palabras: ${contPalabras}`);
             mensaje();
-        });
-    }, 1000);
-}, 1000);
+        }, 500);
+    }, 500);
+}, 500);
