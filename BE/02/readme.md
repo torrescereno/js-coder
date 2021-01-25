@@ -1,7 +1,5 @@
 # **Consigna**
 
-#
-
 * Crear dos funciones llamadas operacion y operaciones.
 
 * operacion recibirá dos números y un string con el nombre de la operación a efectuar entre ellos: *'suma'* ó *'resta'* y cargará dinámicamente un módulo para realizar dicho cálculo. 
