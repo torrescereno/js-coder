@@ -8,7 +8,7 @@ Desarrollar un servidor en node.js que con cada requerimiento devuelva como resu
         title: "Producto " + (número aleatorio entre 1 y 10),
         price: (número aleatorio entre 0.00 y 9999.99),
         thumbnail: "Foto " + (número aleatorio entre 1 y 10)
-    }   
+    }  
 ```
 Dicho servidor se alojará en [glitch](glitch.com)
 
