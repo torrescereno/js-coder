@@ -7,7 +7,7 @@ const server = http.createServer((req, res) =>{
     const numRandom = Math.round(Math.random() * (10 - 1) + 1);
     const decRandom = parseFloat(Math.random() * (9999.99)).toFixed(2);
 
-    const objJason = {
+    const obj = {
         id: numRandom,
         title: `Producto ${numRandom}`,
         price: decRandom,
@@ -20,7 +20,7 @@ const server = http.createServer((req, res) =>{
     switch (req.url) {
         case "/":
             res.writeHead(200);
-            res.end(JSON.stringify(objJason));
+            res.end(JSON.stringify(obj));
             break;
         default:
             res.writeHead(404);
