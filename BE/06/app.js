@@ -15,48 +15,29 @@ class Archivo {
         this.nombre = nombre;
     }
 
-    async leer() {
-        try {
-            const data = await fs.promises.readFile(this.nombre, 'utf-8') || [];
-            console.log(data)
-        } catch (err) {
-            console.log('No existe el archivo', err);
-        }
+    leer() {
+        return fs.promises.readFile(this.nombre, 'utf-8') || [];
     }
 
-    async guardar(producto) {
+    guardar(pData, producto) {
 
-        try {
+        const data = JSON.parse(pData);
 
-            // Obtener el contenido del archivo
-            let data = await fs.promises.readFile(this.nombre, 'utf-8') || [];
-            data = JSON.parse(data);
+        // Obtener el largo del arreglo
+        const totalArray = data.length;
 
-            // Obtener el largo del arreglo
-            const totalArray = data.length;
+        // Agregar el objeto con el ID
+        producto.id = totalArray + 1;
 
-            // Agregar el objeto con el ID
-            producto.id = totalArray + 1;
+        // Push al arreglo
+        data.push(producto)
 
-            // Push al arreglo
-            data.push(producto)
-
-            await fs.promises.writeFile(this.nombre, JSON.stringify(data), 'utf-8');
-            console.log(`Archivo actuializado`);
-
-        } catch (err) {
-            console.log('no se pudo actualizar', err)
-        }
+        return fs.promises.writeFile(this.nombre, JSON.stringify(data), 'utf-8');
 
     }
 
-    async borrar() {
-        try {
-            await fs.promises.unlink(this.nombre);
-            console.log(`Archivo ${miArchivo.nombre} borrado`);
-        } catch (err) {
-            console.log('Error al borrar el archivo', err);
-        }
+    borrar() {
+        return fs.promises.unlink(this.nombre);
     }
 };
 
@@ -65,10 +46,21 @@ const miArchivo = new Archivo(archivo);
 
 async function operarArchivo(producto) {
 
-   await miArchivo.leer();
-   await miArchivo.guardar(producto);
-   await miArchivo.borrar();
-        
+    try {
+
+        const data = await miArchivo.leer();
+        console.log(data);
+
+        await miArchivo.guardar(data, producto);
+        console.log('Producto guardado');
+
+        await miArchivo.borrar();
+        console.log('Archivo borrado');
+
+    } catch (err) {
+        console.log('Ocurrio un error', err)
+    }
+
 }
 
 operarArchivo(producto);
