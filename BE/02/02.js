@@ -1,4 +1,7 @@
-export class Calculo {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Calculo = void 0;
+class Calculo {
     constructor(valor1, valor2, tipo) {
         this.valor1 = valor1;
         this.valor2 = valor2;
@@ -16,3 +19,4 @@ export class Calculo {
         }
     }
 }
+exports.Calculo = Calculo;
