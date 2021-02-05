@@ -54,7 +54,7 @@ app.get('/visitas', (req, res) => {
 });
 app.listen(port, () => {
     try {
-        console.log(`Servidor escuchando en el puesto: ${port}`);
+        console.log(`Servidor escuchando en el puerto: ${port}`);
     }
     catch (e) {
         console.log(e);

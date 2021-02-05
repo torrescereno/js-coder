@@ -8,12 +8,12 @@ class Server {
         this.app = app;
     }
     listen() {
-        this.app.listen(this.port, (err) => {
-            if (err) {
-                console.log(err);
+        this.app.listen(this.port, () => {
+            try {
+                console.log(`Servidor corriendo en http://localhost:${this.port}`);
             }
-            else {
-                console.log(`Escuchando en http://localhost:${this.port}`);
+            catch (e) {
+                console.log(e);
             }
         });
     }
