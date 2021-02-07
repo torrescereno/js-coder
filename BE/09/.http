@@ -1,0 +1,30 @@
+### Obtener productos
+GET http://localhost:8080/api/productos
+
+### Obtener producto por ID
+GET http://localhost:8080/api/productos/1
+
+### Guardar productos
+POST http://localhost:8080/api/productos
+Content-Type: application/json
+
+{
+    "title": "Agua",
+    "price": "9,99",
+    "thumbnail": "imagen.png"
+}
+
+### Borrar producto
+DELETE http://localhost:8080/api/productos/2
+Content-Type: application/json
+
+### Actulizar producto
+
+PUT http://localhost:8080/api/productos/1
+Content-Type: application/json
+
+{
+    "title": "Azucar",
+    "price": "100,00",
+    "thumbnail": "test.png"
+}
