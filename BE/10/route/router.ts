@@ -38,6 +38,7 @@ var storage = multer.diskStorage({
         cb(null, path.join(__dirname,"..","/public/img/"))
     },
     filename: function (req:any, file:any, cb:any) {
+                
         cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
     }
   })
@@ -77,7 +78,7 @@ router.route('/productos/vistas')
     const { title, price } = req.body;    
     const thumbnail = "/img/" + req.file.filename;
     createProduct(title, price, thumbnail);
-    res.redirect('back')
+    res.redirect('/')
 })
 
 router.route('/productos/:id')

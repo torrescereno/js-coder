@@ -61,7 +61,7 @@ router.route('/productos/vistas')
     const { title, price } = req.body;
     const thumbnail = "/img/" + req.file.filename;
     createProduct(title, price, thumbnail);
-    res.redirect('back');
+    res.redirect('/');
 });
 router.route('/productos/:id')
     // Buscar producto por id
