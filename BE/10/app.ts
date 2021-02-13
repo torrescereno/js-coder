@@ -29,8 +29,12 @@ app.set('views', './BE/10/views');
 
 // Rederizar el index
 app.get('/', (req, res) => {
-    res.render('main')
+    res.redirect('http://localhost:8080/api/productos/vistas')
 });
+
+// Public
+app.use(express.static(__dirname + '/public'));
+
 
 // Router
 app.use('/api', require('./route/router'));

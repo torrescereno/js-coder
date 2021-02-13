@@ -1,12 +1,22 @@
-import express from 'express';
+import express from 'express'
+import multer  from 'multer'
+import path from 'path'
 
 const router = express.Router()
+
+// Interface de producto
+// interface Producto{
+//     id?: number,
+//     title: string,
+//     price: string,
+//     thumbnail: string
+// }
 
 let productos:any[] = [];
 
 const getProduct = (id:any) => productos.find( producto => producto.id == id);
 const listPorducts = () => productos.length ? productos : [];
-const createProduct = (title, price, thumbnail) => {
+const createProduct = (title:any, price:any, thumbnail:any) => {
  
     const nProductos = productos.length + 1;
 
@@ -21,6 +31,19 @@ const createProduct = (title, price, thumbnail) => {
 
     return producto;
 }
+
+var storage = multer.diskStorage({
+    destination: function (req:any, file:any, cb:any) {
+        
+        cb(null, path.join(__dirname,"..","/public/img/"))
+    },
+    filename: function (req:any, file:any, cb:any) {
+        cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
+    }
+  })
+   
+  var upload = multer({ storage: storage })
+
 
 router.route('/productos')
 
@@ -50,8 +73,9 @@ router.route('/productos/vistas')
     res.render('main', { listaProductos: productos , existenProductos: valProdcutos})
 })
 
-.post((req, res) => {
-    const { title, price, thumbnail } = req.body;
+.post(upload.single('thumbnail'), (req:any, res:any) => {
+    const { title, price } = req.body;    
+    const thumbnail = "/img/" + req.file.filename;
     createProduct(title, price, thumbnail);
     res.redirect('back')
 })
