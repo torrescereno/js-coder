@@ -32,7 +32,7 @@ const createProduct = (title:any, price:any, thumbnail:any) => {
     return producto;
 }
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function (req:any, file:any, cb:any) {
         
         cb(null, path.join(__dirname,"..","/public/img/"))
@@ -43,7 +43,7 @@ var storage = multer.diskStorage({
     }
   })
    
-  var upload = multer({ storage: storage })
+const upload = multer({ storage: storage })
 
 
 router.route('/productos')
