@@ -1,6 +1,8 @@
 import express from 'express';
 import multer  from 'multer'
+import path from 'path'
 import { Server } from './server/server'
+
 const router = express.Router()
 
 const app = express();
@@ -26,15 +28,15 @@ const createProduct = (title:any, price:any, thumbnail:any) => {
 }
 
 const storage = multer.diskStorage({
-    destination: function (req:any, file:any, cb:any) {
+     destination: function (req:any, file:any, cb:any) {
         
-        cb(null, "/img/")
-    },
-    filename: function (req:any, file:any, cb:any) {
+        cb(null, path.join(__dirname + "/public/img/"))
+     },
+     filename: function (req:any, file:any, cb:any) {
                 
-        cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
-    }
-  })
+         cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
+     }
+   })
    
 const upload = multer({ storage: storage })
 
@@ -46,11 +48,13 @@ app.use(express.urlencoded({
 
 // *******************************
 
+// PUG
+
 // Establecer el directorio donde se encuentran las platillas
-app.set('views', './BE/10/views');
+app.set('views', './BE/11/views');
 
 // Establecer el motor de plantilla a utilizar
-app.set('view engine', 'hbs');
+app.set('view engine', 'pug');
 
 // *******************************
 
@@ -64,23 +68,23 @@ router.route('/productos/vistas')
 
 // get
 .get((req, res) => {
-    listPorducts();
-    const valProdcutos = listPorducts().length
-    res.render('main', { listaProductos: productos , existenProductos: valProdcutos})
+     listPorducts();
+     const valProdcutos = listPorducts().length
+     res.render('index', { listaProductos: productos , existenProductos: valProdcutos})
 })
 
 .post(upload.single('thumbnail'), (req:any, res:any) => {
-    const { title, price } = req.body;    
-    const thumbnail = "/img/" + req.file.filename;
-    createProduct(title, price, thumbnail);
-    res.redirect('/')
+     const { title, price } = req.body;    
+     const thumbnail = "/img/" + req.file.filename;
+     createProduct(title, price, thumbnail);
+     res.redirect('/')
 })
 
 // Public
 app.use(express.static(__dirname + '/public'));
 
 // Router
-app.use('/api', require('./route/router'));
+app.use('/api', router);
 
 // Listener
 server.listen();

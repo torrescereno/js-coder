@@ -1,0 +1,15 @@
+//- Listar productos
+
+div(class="lista")
+    div(class="lista-title")
+        h1 Lista de productos
+    div(class="lista-container")
+        if existenProductos
+            each producto in listaProductos
+                div(class="card lista-card", style="width: 18rem;")
+                    img(src= producto.thumbnail, class="card-img-top lista-imagen")
+                    div(class="card-body")
+                        h5(class="card-title")= producto.title
+                        p(class="card-text")= producto.price 
+        else
+            p No hay productos

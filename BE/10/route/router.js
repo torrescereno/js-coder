@@ -28,7 +28,7 @@ const createProduct = (title, price, thumbnail) => {
     productos.push(producto);
     return producto;
 };
-var storage = multer_1.default.diskStorage({
+const storage = multer_1.default.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path_1.default.join(__dirname, "..", "/public/img/"));
     },
@@ -36,7 +36,7 @@ var storage = multer_1.default.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname);
     }
 });
-var upload = multer_1.default({ storage: storage });
+const upload = multer_1.default({ storage: storage });
 router.route('/productos')
     // Obtener todos los productos
     .get((req, res) => {
