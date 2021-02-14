@@ -37,11 +37,11 @@ app.use(express_1.default.urlencoded({
     extended: true
 }));
 // *******************************
-// PUG
+// EJS
 // Establecer el directorio donde se encuentran las platillas
 app.set('views', './BE/11/views');
 // Establecer el motor de plantilla a utilizar
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 // *******************************
 // Rederizar el index
 app.get('/', (req, res) => {

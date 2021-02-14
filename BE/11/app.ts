@@ -48,13 +48,13 @@ app.use(express.urlencoded({
 
 // *******************************
 
-// PUG
+// EJS
 
 // Establecer el directorio donde se encuentran las platillas
 app.set('views', './BE/11/views');
 
 // Establecer el motor de plantilla a utilizar
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 // *******************************
 
