@@ -51,9 +51,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req:Request, res:Response) => {
-
     res.sendFile('index.html', {root: __dirname + "/views"})
-
 });
 
 app.post('/', upload.single('thumbnail'), (req:any, res:any) => {    
@@ -66,7 +64,8 @@ app.post('/', upload.single('thumbnail'), (req:any, res:any) => {
 // Conexion al socket
 io.on('connection', (socket: Socket) => {   
 
-    
+    // Mostrar todos los objetos
+    socket.emit('get:lista', { listaProductos: productos , existenProductos: listPorducts()})
 
     socket.on('post:producto', () => {
         io.sockets.emit('get:productos', { listaProductos: productos , existenProductos: listPorducts()});
@@ -75,6 +74,6 @@ io.on('connection', (socket: Socket) => {
 });
 
 // Levantando el servidor
-http.listen(3000, () => {
-    console.log('Conexion en puerto :3000');
+http.listen(8080, () => {
+    console.log('Conexion en puerto http://localhost:8080/');
 });

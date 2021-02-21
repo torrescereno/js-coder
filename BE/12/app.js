@@ -52,11 +52,13 @@ app.post('/', upload.single('thumbnail'), (req, res) => {
 });
 // Conexion al socket
 io.on('connection', (socket) => {
+    // Mostrar todos los objetos
+    socket.emit('get:lista', { listaProductos: productos, existenProductos: listPorducts() });
     socket.on('post:producto', () => {
         io.sockets.emit('get:productos', { listaProductos: productos, existenProductos: listPorducts() });
     });
 });
 // Levantando el servidor
-http.listen(3000, () => {
-    console.log('Conexion en puerto :3000');
+http.listen(8080, () => {
+    console.log('Conexion en puerto http://localhost:8080/');
 });

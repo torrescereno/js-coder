@@ -31,6 +31,7 @@ body{
 
 .lista{
     margin-top: 20px;
+    margin-bottom: 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -59,6 +60,7 @@ body{
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;  
     row-gap: 15px;
+    margin-top: 15px;
 }
 
 .agregar{
