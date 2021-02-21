@@ -1,28 +1,38 @@
+
 const socket = io();
 
 // Formulario
 const formulario = document.querySelector("#formAdd");
-//Input
-const pTitulo = document.querySelector("#titulo")
-const pPrecio = document.querySelector("#precio")
-const pArchivo = document.querySelector("#archivo")
 const divLista = document.querySelector(".lista-container");
+
 
 formulario.addEventListener("submit", (e) => {
 
     e.preventDefault();
-    
-    // Emitir el objeto que se quiere crear
-    socket.emit('post:producto', {
-        'title': pTitulo.value,
-        'price': pPrecio.value,
-        'thumbnail': pArchivo.value,
-    });
 
-    // Limpiar inputs
-    pTitulo.value = "";
-    pPrecio.value = "";
-    pArchivo.value = "";
+    const url = "http://localhost:3000/"
+
+    //Input
+    const pTitulo = document.querySelector("#titulo")
+    const pPrecio = document.querySelector("#precio")
+    const pArchivo = document.querySelector("#archivo")
+
+    const formData = new FormData();
+
+    formData.append("title", pTitulo.value);
+    formData.append("price", pPrecio.value);
+    formData.append("thumbnail", pArchivo.files[0])
+
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .catch(err => console.error(err))
+    .then(response => {
+        socket.emit('post:producto', response)
+    })
+    
 
 });
 

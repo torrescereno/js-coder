@@ -1,6 +1,8 @@
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import express, { Request, Response } from 'express';
+import multer  from 'multer'
+import path from 'path'
 
 const app = express();
 
@@ -23,6 +25,19 @@ const createProduct = (title:any, price:any, thumbnail:any) => {
     return producto;
 }
 
+const storage = multer.diskStorage({
+    destination: function (req:any, file:any, cb:any) {
+       
+       cb(null, path.join(__dirname + "/public/img/"))
+    },
+    filename: function (req:any, file:any, cb:any) {
+               
+        cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
+    }
+  })
+  
+const upload = multer({ storage: storage })
+
 app.use(express.json());
 
 app.use(express.urlencoded({
@@ -36,15 +51,27 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req:Request, res:Response) => {
+
     res.sendFile('index.html', {root: __dirname + "/views"})
+
 });
 
+app.post('/', upload.single('thumbnail'), (req:any, res:any) => {    
+    const { title, price } = req.body;    
+    const thumbnail = "/img/" + req.file.filename;
+    createProduct(title, price, thumbnail);
+    res.redirect('/')
+})
+
 // Conexion al socket
-io.on('connection', (socket: Socket) => {    
-    socket.on('post:producto', (data) => {
-        createProduct(data.title, data.price, data.thumbnail);
+io.on('connection', (socket: Socket) => {   
+
+    
+
+    socket.on('post:producto', () => {
         io.sockets.emit('get:productos', { listaProductos: productos , existenProductos: listPorducts()});
     })
+
 });
 
 // Levantando el servidor
