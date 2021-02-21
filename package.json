@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon BE/11/app.js"
+    "dev": "nodemon BE/12/app.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,8 @@
     "multer": "^1.4.2",
     "pug": "^3.0.0",
     "pug-cli": "^1.0.0-alpha6",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "socket.io": "^3.1.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
