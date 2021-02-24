@@ -40,6 +40,10 @@ app.get('/', (req:Request, res:Response) => {
 // Conexion al socket
 io.on('connection', (socket: Socket) => {   
 
+    socket.on('get:message', (data)=>{
+        io.sockets.emit('get:message-user', {'message': data})
+    })
+
 });
 
 // Levantando el servidor
