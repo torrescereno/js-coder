@@ -41,7 +41,7 @@ app.get('/', (req:Request, res:Response) => {
 io.on('connection', (socket: Socket) => {   
 
     socket.on('get:message', (data)=>{
-        io.sockets.emit('get:message-user', {'message': data})
+        io.sockets.emit('get:message-user', {'message': data.message, 'userId' : data.userId})
     })
 
 });

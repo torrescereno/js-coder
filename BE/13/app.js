@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 // Conexion al socket
 io.on('connection', (socket) => {
     socket.on('get:message', (data) => {
-        io.sockets.emit('get:message-user', { 'message': data });
+        io.sockets.emit('get:message-user', { 'message': data.message, 'userId': data.userId });
     });
 });
 // Levantando el servidor

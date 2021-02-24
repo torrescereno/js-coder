@@ -117,3 +117,28 @@ label{
 .chat-input{
     width: 100%;
 }
+
+.panel{
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.panel > div{
+    width: 50%;
+}
+
+.chat-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-panel > p{
+    text-align: left;
+    width: 80%;
+    padding: 8px;
+    border: 2px solid black;
+    min-height: 70vh;
+    border-radius: 5px;
+}
