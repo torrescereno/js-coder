@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon BE/14/server.js",
+    "dev": "nodemon BE/17/app.js",
     "ServerES6toJS5": "./node_modules/.bin/babel BE/14/server.es6.js -o BE/14/dist/server.es6.js",
     "ServerTStoJS5": "npx tsc"
   },
@@ -23,18 +23,22 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
+    "knex": "^0.95.2",
     "moment": "^2.29.1",
     "multer": "^1.4.2",
+    "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "pug": "^3.0.0",
     "pug-cli": "^1.0.0-alpha6",
     "rxjs": "^6.6.3",
-    "socket.io": "^3.1.1"
+    "socket.io": "^3.1.1",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
