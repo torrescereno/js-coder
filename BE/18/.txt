@@ -1,0 +1,13 @@
+// Crear una base de datos
+use prueba
+
+// Insertar y crear una coleccion
+db.items.insert({nombre: "Fideos", categoria: "Harina", stock: 20})
+db.items.insert({nombre: "Leche", categoria: "Lacteos", stock: 30})
+db.items.insert({nombre: "Crema", categoria: "Lacteos", stock: 15})
+
+// Listar tados
+db.items.find()
+
+// Eportar bdd con mongoexport
+mongoexport --collection=items --db=prueba --out=items.json

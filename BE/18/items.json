@@ -1,0 +1,3 @@
+{"_id":{"$oid":"605530b9c06cd212dfb65223"},"nombre":"Fideos","categoria":"Harina","stock":20.0}
+{"_id":{"$oid":"605530ddc06cd212dfb65224"},"nombre":"Leche","categoria":"Lacteos","stock":30.0}
+{"_id":{"$oid":"605530f4c06cd212dfb65225"},"nombre":"Crema","categoria":"Lacteos","stock":15.0}
