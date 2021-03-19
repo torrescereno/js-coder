@@ -1,107 +1,86 @@
-const chatForm = document.querySelector('#chat-form');
-const chatMessages = document.querySelector('.chat-messages');
-const roomName = document.querySelector('#room-name');
-const userList = document.querySelector('#users');
-const chatContainer = document.querySelector('.chat-messages-container');
 
-const socket = io.connect();
+const socket = io();
 
-const { username, room } = getParams();
+// Formulario
+const formulario = document.querySelector("#formAdd");
+const divLista = document.querySelector(".lista-container");
 
-socket.emit('joinRoom', { username, room });
+const btnProdcuto = document.querySelector("#listar");
+const btnChat = document.querySelector("#chat");
 
-socket.on('roomUsers', ({ room, users }) => {
-    outputRoomName(room);
-    outputUsers(users);
-});
+btnProdcuto.addEventListener("click", () =>{
+    document.querySelector(".login-main").style.display = "none";
+    document.querySelector(".producto-container").style.display = "block";
+})
 
+btnChat.addEventListener("click", () =>{
+    document.querySelector(".producto-container").style.display = "none";
+    document.querySelector(".login-main").style.display = "flex";
+})
 
-socket.on('message', (message) => {
-    outputMessage(message);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-});
+formulario.addEventListener("submit", (e) => {
 
-chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    let msg = e.target.elements.msg.value;
+    const url = "http://localhost:8080/"
 
-    msg = msg.trim();
+    //Input
+    const pTitulo = document.querySelector("#titulo")
+    const pPrecio = document.querySelector("#precio")
+    const pArchivo = document.querySelector("#archivo")
 
-    if (!msg) {
-        return false;
-    }
+    const formData = new FormData();
 
-    socket.emit('chatMessage', msg);
+    formData.append("title", pTitulo.value);
+    formData.append("price", pPrecio.value);
+    formData.append("thumbnail", pArchivo.files[0])
 
-    e.target.elements.msg.value = '';
-    e.target.elements.msg.focus();
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .catch(err => console.error(err))
+    .then(response => {
+        socket.emit('post:producto', response)
+    })
+
+    divLista.innerHTML = "";
+    pTitulo.value = "";
+    pPrecio.value = "";
+    pArchivo.value = "";
 });
 
+socket.on('get:productos', (data) => {
+    divLista.innerHTML = "";
+    agregarProdutos(data,divLista);
+});
 
-function outputMessage(message) {
-    
-    const divContainer = document.createElement('div');
-    const divMessage = document.createElement('div');
-    const divUser = document.createElement('div');
-    const divText = document.createElement('div');
-    const divTime = document.createElement('div');
+socket.on('get:lista', (data)=>{
+    agregarProdutos(data,divLista);
+})
 
-    if (socket.id == message.id) {
-        divContainer.classList.add('chat-messages');
+socket.on("connect", () => {
+    console.log("user conectado " + socket.id);
+})
+
+// Mostrar productos
+function agregarProdutos(data, divLista) {
+
+    if (data.existenProductos == 0) {
+        divLista.innerHTML = '<p>No hay productos</p>'
     }else{
-        divContainer.classList.add('chat-messages-others');
+        for (let i = 0; i < data.listaProductos.length; i++) {
+            const element = data.listaProductos[i];
+            divLista.innerHTML += `
+            <div class="card lista-card" style="width: 18rem;">
+                <img src="${element.thumbnail}" class="card-img-top lista-imagen">
+                <div class="card-body">
+                    <h5 class="card-title">${element.title}</h5>
+                    <p class="card-text">Precio: ${element.price}</p>
+                </div>
+            </div>
+            `
+        }
     }
-
-    divMessage.classList.add('message');
-    divUser.classList.add('message-user');
-    divText.classList.add('message-content');
-    divTime.classList.add('message-time');
-
-    divUser.innerHTML = `<span>${message.username}</span>`;
-    divText.innerHTML = `<span>${message.text}</span>`;
-    divTime.innerHTML = `<span>${message.time}</span>`
-
-    divContainer.appendChild(divMessage)
-    divMessage.appendChild(divUser);
-    divMessage.appendChild(divText);
-    divMessage.appendChild(divTime);
-    
-    document.querySelector('.chat-messages-container').appendChild(divContainer);
-}
-
-function outputRoomName(room) {
-    roomName.innerText = room;
-}
-
-function outputUsers(users) {
-    userList.innerHTML = '';
-    users.forEach((user) => {
-        const li = document.createElement('li');
-        li.innerText = user.username;
-        userList.appendChild(li);
-    });
-}
-
-document.getElementById('leave-btn').addEventListener('click', () => {
-    const leaveRoom = confirm('Estas segur@ que quieres salir ?');
-    if (leaveRoom) {
-        window.location = '/';
-    } else {
-    }
-});
-
-function getParams() {
-
-    const data = [];
-    const valores = window.location.search;
-    const urlParams = new URLSearchParams(valores);
-    const values = urlParams.values();
-
-    for (const value of values) data.push(value);
-
-    return {
-        username: data[0],
-        room: data[1]
-    };
 }

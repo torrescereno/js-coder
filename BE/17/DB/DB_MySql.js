@@ -35,7 +35,6 @@ async function addTableProducts() {
 async function addProduct(data) {
     try {
         await knex('products').insert(data)
-        /* console.log('producto insertado'); */
   } catch (error) {
         console.log(error);
   }
@@ -58,10 +57,9 @@ async function updateProduct(id,data) {
 }
 
 // Buscar todos los productos
-async function findAllProducts(params) {
+async function findAllProducts() {
     try {
-        const data = await knex.select().from('products')
-        return data;
+        return await knex.select().from('products')
     } catch (error) {
         console.log(error);
     }
@@ -70,8 +68,7 @@ async function findAllProducts(params) {
 // Buscar producto por ID
 async function findProductId(id) {
     try {
-        const data = await knex('products').where('id', '=', id)
-        return data;
+        return await knex('products').where('id', '=', id)
     } catch (error) {
         console.log(error);
     }
