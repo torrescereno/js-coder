@@ -1,0 +1,9 @@
+{"_id":{"$oid":"605557de68ae814816ad83fc"},"title":"titulo 11","price":1000.0,"thumbnail":"url//11","stock":100.0}
+{"_id":{"$oid":"605557e568ae814816ad83fd"},"title":"titulo 11","price":1100.0,"thumbnail":"url//11","stock":100.0}
+{"_id":{"$oid":"605557e968ae814816ad83fe"},"title":"titulo 11","price":1150.0,"thumbnail":"url//11","stock":100.0}
+{"_id":{"$oid":"605557f568ae814816ad83ff"},"title":"titulo 11","price":2000.0,"thumbnail":"url//11","stock":100.0}
+{"_id":{"$oid":"605557fa68ae814816ad8400"},"title":"titulo 11","price":2674.0,"thumbnail":"url//11","stock":0.0}
+{"_id":{"$oid":"6055580068ae814816ad8401"},"title":"titulo 11","price":3000.0,"thumbnail":"url//11","stock":0.0}
+{"_id":{"$oid":"6055580c68ae814816ad8403"},"title":"titulo 11","price":2983.0,"thumbnail":"url//11","stock":0.0}
+{"_id":{"$oid":"6055581168ae814816ad8404"},"title":"titulo 11","price":1130.0,"thumbnail":"url//11","stock":100.0}
+{"_id":{"$oid":"6055581e68ae814816ad8405"},"title":"titulo 11","price":1500.0,"thumbnail":"url//11","stock":100.0}
