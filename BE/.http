@@ -28,3 +28,21 @@ Content-Type: application/json
     "price": "100,00",
     "thumbnail": "test.png"
 }
+
+######################
+
+GET http://localhost:8000/msg/
+
+## POST
+
+POST http://localhost:8000/msg/
+Content-Type: application/json
+
+{
+    "email": "Agua",
+    "texto": "test"
+}
+
+
+##############
+

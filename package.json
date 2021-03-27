@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon BE/17/app.js",
+    "dev": "nodemon BE/20/app.js",
     "ServerES6toJS5": "./node_modules/.bin/babel BE/14/server.es6.js -o BE/14/dist/server.es6.js",
     "ServerTStoJS5": "npx tsc"
   },
@@ -30,6 +30,7 @@
     "express-session": "^1.17.1",
     "knex": "^0.95.2",
     "moment": "^2.29.1",
+    "mongoose": "^5.12.2",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
