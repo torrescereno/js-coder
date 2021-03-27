@@ -3,7 +3,7 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const PORT = process.env.PORT || 8080;
-const handlebars = require('express-handlebars');
+const dbMongo = require('./DB/DB_Mongo')
 const formatMessage = require('./public/js/message.js');
 const {
     userJoin,
@@ -11,14 +11,10 @@ const {
     userLeave,
     getRoomUsers
 } = require('./public/js/user');
+const handlebars = require('express-handlebars');
 
-const {
-    storage,
-    upload
-} = require('./storage')
 
-const dbMongo = require('./DB/DB_Mongo')
-
+// Config Handlebars
 const config = {
     extname: '.hbs',
     defaultLayout: '',
@@ -26,57 +22,21 @@ const config = {
     partialsDir: __dirname + '/views/partials'
 };
 
-const botName = 'Chat live';
+// Nombre del chat
+const botName = 'Chat Live';
 
-app.use(express.json());
-
-app.use(express.urlencoded({
-    extended: true
-}));
-
-app.engine('hbs', handlebars(config));
-app.set('view engine', 'hbs');
-app.set('views', './BE/17/views');
-
-app.use(express.static(__dirname + '/public'));
-
-app.get('/', (req, res) => {
-    res.render('index', {})
-})
-
-app.post('/', upload.single('thumbnail'), (req, res) => {
-
-    // Post a la tabla productos
-
-    const { title, price } = req.body;
-    const thumbnail = "/img/" + req.file.filename;
-
-    const product = {
-        title,
-        price,
-        thumbnail
-    }
-
-    dbMongo.addProduct(product);
-    res.redirect('/')
-})
-
-app.get('/chat', (req, res) => {
-    res.render('chat', {})
-})
-
+// Socket io
 io.on('connection', function(socket) {
 
     const userId = socket.id;
 
+    // Ingresar a la sala
     socket.on('joinRoom', ({ username, room }) => {
 
         const user = userJoin(socket.id, username, room);
 
         socket.join(user.room);
-
         socket.emit('messages', formatMessage(userId, botName, 'Bienvenid@'));
-
         socket.broadcast
             .to(user.room)
             .emit(
@@ -90,15 +50,17 @@ io.on('connection', function(socket) {
         });
     });
 
+    // Recibir y escribir mensaje
     socket.on('chatMessage', msg => {
-        const user = getCurrentUser(userId);
 
-        // Insert mensaje en SQLite (persistencia de mensajes)
-        dbMongo.insertMessage({"email": user.username, "texto": msg})
+        const user = getCurrentUser(userId);
+        
+        dbMongo.insertMessage({ "email": user.username, "texto": msg })
 
         io.to(user.room).emit('message', formatMessage(userId, user.username, msg));
     });
 
+    // Desconexion de usuario
     socket.on('disconnect', () => {
         const user = userLeave(socket.id);
 
@@ -115,12 +77,12 @@ io.on('connection', function(socket) {
         }
     });
 
-    // Mostrar todos los objetos
+    // Ontener todos los productos
     dbMongo.findAllProducts()
         .then(data => {
             socket.emit('get:lista', { listaProductos: data, existenProductos: data.length })
         })
-
+    
     socket.on('post:producto', () => {
 
         dbMongo.findAllProducts()
@@ -132,6 +94,25 @@ io.on('connection', function(socket) {
 
 });
 
+// middleware
+app.use(express.json());
+app.use(express.static(__dirname + '/public'));
+app.use(express.urlencoded({
+    extended: true
+}));
+
+// Conifg view
+app.engine('hbs', handlebars(config));
+app.set('view engine', 'hbs');
+app.set('views', './BE/20/views');
+
+// Route
+app.use('/', require('./route/raiz.route'));
+app.use('/producto', require('./route/productos.route'));
+app.use('/chat', require('./route/mensajes.route'));
+
+
+// Levantar el server
 server.listen(PORT, function () {
     dbMongo.conexion('mongodb://localhost:27017/ecommerce');
     console.log(`http://localhost:${PORT}/`);

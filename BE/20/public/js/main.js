@@ -22,7 +22,7 @@ formulario.addEventListener("submit", (e) => {
 
     e.preventDefault();
 
-    const url = "http://localhost:8080/"
+    const url = "http://localhost:8080/producto"
 
     //Input
     const pTitulo = document.querySelector("#titulo")
@@ -56,8 +56,8 @@ socket.on('get:productos', (data) => {
     agregarProdutos(data,divLista);
 });
 
-socket.on('get:lista', (data)=>{
-    agregarProdutos(data,divLista);
+socket.on('get:lista', (data) => {
+    agregarProdutos(data, divLista);
 })
 
 socket.on("connect", () => {
