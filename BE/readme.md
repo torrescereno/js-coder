@@ -32,4 +32,12 @@
 
 ### 15. Node.js como herramienta de desarrollo - Parte 2 
 
-### 16.  SQL y Node.js - Parte 1 
+### 16. SQL y Node.js - Parte 1
+
+### 17. SQL y Node.js - Parte 2
+
+### 18. Introducción a MongoDB
+
+### 19. CRUD en MongoDB Client
+
+### 20. MongoDB y Node.js
