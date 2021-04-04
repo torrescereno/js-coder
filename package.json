@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon BE/20/app.js",
+    "dev": "nodemon BE/server/app.js",
     "ServerES6toJS5": "./node_modules/.bin/babel BE/14/server.es6.js -o BE/14/dist/server.es6.js",
     "ServerTStoJS5": "npx tsc"
   },
@@ -28,6 +28,7 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.1",
+    "faker": "^5.5.2",
     "knex": "^0.95.2",
     "moment": "^2.29.1",
     "mongoose": "^5.12.2",
