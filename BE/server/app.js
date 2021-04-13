@@ -13,6 +13,11 @@ const {
 } = require("./public/js/user");
 const handlebars = require("express-handlebars");
 
+// Normalizr
+const normalizr = require("normalizr");
+const normalize = normalizr.normalize;
+const schema = normalizr.schema;
+
 // Config Handlebars
 const config = {
 	extname: ".hbs",
@@ -51,9 +56,36 @@ io.on("connection", function (socket) {
 	socket.on("chatMessage", (msg) => {
 		const user = getCurrentUser(userId);
 
-		dbMongo.insertMessage({ email: user.username, texto: msg });
+		/// ********************** MODIFICAR ///
 
-		io.to(user.room).emit("message", formatMessage(userId, user.username, msg));
+		// Autor de pruebas
+		const objAutor = {
+			email: user.username,
+			nombre: "prueba",
+			apellido: "prueba",
+			edad: 27,
+			alias: "prueba",
+			avatar: "url-avatar",
+		};
+
+		// Guardar mensaje en la base de datos
+		dbMongo.insertMessage({ autor: objAutor, texto: msg });
+
+		const autor = new schema.Entity("user");
+		const message = new schema.Entity("message", {
+			autor: autor,
+		});
+
+		// Normalizar
+		const dataNormalizada = normalize({ autor: objAutor, texto: msg }, message);
+
+		// Enviar info al front
+		io.to(user.room).emit(
+			"message",
+			formatMessage(userId, user.username, dataNormalizada)
+		);
+
+		/// ********************** FIN MODIFICAR ///
 	});
 
 	// Desconexion de usuario
