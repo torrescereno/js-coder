@@ -12,6 +12,7 @@ const {
 	getRoomUsers,
 } = require("./public/js/user");
 const handlebars = require("express-handlebars");
+const moment = require("moment");
 
 // Normalizr
 const normalizr = require("normalizr");
@@ -56,36 +57,42 @@ io.on("connection", function (socket) {
 	socket.on("chatMessage", (msg) => {
 		const user = getCurrentUser(userId);
 
-		/// ********************** MODIFICAR ///
+		/// **********************
+		// Objeto de prueba
 
-		// Autor de pruebas
-		const objAutor = {
-			email: user.username,
-			nombre: "prueba",
-			apellido: "prueba",
-			edad: 27,
-			alias: "prueba",
-			avatar: "url-avatar",
+		const objData = {
+			_id: userId,
+			autor: {
+				email: user.username,
+				nombre: "prueba",
+				apellido: "prueba",
+				edad: 27,
+				alias: "prueba",
+				avatar: "url-avatar",
+			},
+			text: msg,
+			time: moment().format("L LTS"),
 		};
 
 		// Guardar mensaje en la base de datos
-		dbMongo.insertMessage({ autor: objAutor, texto: msg });
+		dbMongo.insertMessage({ texto: msg });
 
-		const autor = new schema.Entity("user");
-		const message = new schema.Entity("message", {
-			autor: autor,
-		});
+		/// **********************
 
-		// Normalizar
-		const dataNormalizada = normalize({ autor: objAutor, texto: msg }, message);
-
-		// Enviar info al front
-		io.to(user.room).emit(
-			"message",
-			formatMessage(userId, user.username, dataNormalizada)
+		const userSchema = new schema.Entity("user", {}, { idAttribute: "email" });
+		const chatSchema = new schema.Entity(
+			"chat",
+			{
+				autor: userSchema,
+			},
+			{ idAttribute: "_id" }
 		);
 
-		/// ********************** FIN MODIFICAR ///
+		// Normalizar
+		const dataNormalizada = normalize(objData, chatSchema);
+
+		// Enviar info al front
+		io.to(user.room).emit("message", dataNormalizada);
 	});
 
 	// Desconexion de usuario

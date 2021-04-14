@@ -16,24 +16,26 @@ socket.on("roomUsers", ({ room, users }) => {
 });
 
 socket.on("message", (message) => {
-	// *****************************
-	// CORREGIR
-	// *** Desnormalizar mensaje **
-
-	const autor = new normalizr.schema.Entity("user");
-	const mensaje = new normalizr.schema.Entity("message", {
-		autor: autor,
-	});
-
-	const data = normalizr.denormalize(
-		message,
-		mensaje,
-		message.text.entities.message
+	const userSchema = new normalizr.schema.Entity(
+		"user",
+		{},
+		{ idAttribute: "email" }
+	);
+	const chatSchema = new normalizr.schema.Entity(
+		"chat",
+		{
+			autor: userSchema,
+		},
+		{ idAttribute: "_id" }
 	);
 
-	// *****************************
+	const dataDesnormalizada = normalizr.denormalize(
+		message.result,
+		chatSchema,
+		message.entities
+	);
 
-	outputMessage(message);
+	outputMessage(dataDesnormalizada);
 	chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
@@ -61,7 +63,7 @@ function outputMessage(message) {
 	const divText = document.createElement("div");
 	const divTime = document.createElement("div");
 
-	if (socket.id == message.id) {
+	if (socket.id == message._id) {
 		divContainer.classList.add("chat-messages");
 	} else {
 		divContainer.classList.add("chat-messages-others");
@@ -72,7 +74,7 @@ function outputMessage(message) {
 	divText.classList.add("message-content");
 	divTime.classList.add("message-time");
 
-	divUser.innerHTML = `<span>${message.username}</span>`;
+	divUser.innerHTML = `<span>${message.autor.email}</span>`;
 	divText.innerHTML = `<span>${message.text}</span>`;
 	divTime.innerHTML = `<span>${message.time}</span>`;
 
