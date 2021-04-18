@@ -19,13 +19,49 @@ body {
 .navBar {
 	background-color: var(--main-bg-color);
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 	padding: 15px;
 }
 
 .navBar > p {
 	color: var(--main-color);
+}
+
+.nav-user {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	text-align: center;
+}
+
+.nav-user > p {
+	color: var(--main-color);
+	text-align: center;
+	margin: auto;
+	margin-right: 1rem;
+}
+
+.logout-message {
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	margin-top: 2rem;
+	width: 100%;
+}
+
+#logout-logo {
+	width: 1.5rem;
+}
+
+.login-container {
+	height: 100vh;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 #listar {
