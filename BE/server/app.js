@@ -7,19 +7,7 @@ const dbMongo = require("./DB/DB_Mongo");
 const handlebars = require("express-handlebars");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-
-app.use(cookieParser());
-app.use(
-	session({
-		secret: "secret",
-		resave: false,
-		saveUninitialized: false,
-		rolling: true,
-		cookie: {
-			maxAge: 60000,
-		},
-	})
-);
+const MongoStore = require("connect-mongo");
 
 const config = {
 	extname: ".hbs",
@@ -38,6 +26,22 @@ app.use(express.static(__dirname + "/public"));
 app.use(
 	express.urlencoded({
 		extended: true,
+	})
+);
+app.use(cookieParser());
+app.use(
+	session({
+		store: MongoStore.create({
+			mongoUrl: "mongodb://localhost:27017/ecommerce",
+			ttl: 600,
+		}),
+		secret: "secret",
+		resave: false,
+		saveUninitialized: false,
+		rolling: true,
+		cookie: {
+			maxAge: 60000,
+		},
 	})
 );
 
