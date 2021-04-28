@@ -168,6 +168,10 @@ label {
 	width: 100%;
 }
 
+.form-login-content > input {
+	margin-bottom: 1rem;
+}
+
 #username {
 	margin-top: 10px;
 }
