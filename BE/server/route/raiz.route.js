@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const session = require("express-session");
 
 router
 	.route("")
 
 	.get((req, res) => {
-		if (req.session.nombre) {
+		if (req.isAuthenticated()) {
 			res.render("index", {
-				nombre: req.session.nombre,
+				nombre: req.user.displayName,
 			});
 		} else {
 			res.render("partials/login");

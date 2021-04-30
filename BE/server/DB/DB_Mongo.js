@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const mensajeModel = require("../models/mensajes.model");
 const productoModel = require("../models/productos.model");
 
+const bcrypt = require("bcrypt");
+
 async function conexion(url) {
 	try {
 		await mongoose.connect(url, {
