@@ -1,10 +1,12 @@
+require("dotenv").config({ path: process.cwd() + "/BE/server/.env" });
+
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 
-const FACEBOOK_CLIENT_ID = "167405678511941";
-const FACEBOOK_CLIENT_SECRET = "70edff5a8dcbb04710bc59d784a79278";
+const FACEBOOK_CLIENT_ID = process.env.FACEBOOK_CLIENT_ID;
+const FACEBOOK_CLIENT_SECRET = process.env.FACEBOOK_CLIENT_SECRET;
 
 passport.use(
 	new FacebookStrategy(

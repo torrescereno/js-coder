@@ -1,3 +1,5 @@
+require("dotenv").config({ path: process.cwd() + "/BE/server/.env" });
+
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -9,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
+const { fork } = require("child_process");
 
 const config = {
 	extname: ".hbs",
@@ -33,10 +36,10 @@ app.use(cookieParser());
 app.use(
 	session({
 		store: MongoStore.create({
-			mongoUrl: "mongodb://localhost:27017/ecommerce",
+			mongoUrl: process.env.DB_HOST,
 			ttl: 600,
 		}),
-		secret: "secret",
+		secret: process.env.DB_SECRET,
 		resave: false,
 		saveUninitialized: false,
 		rolling: true,
@@ -84,8 +87,38 @@ passport.deserializeUser(function (obj, cb) {
 	cb(null, obj);
 });
 
+// PROCESS
+
+app.get("/info", (req, res) => {
+	res.render("partials/info", {
+		arg: process.argv,
+		SO: process.platform,
+		node: process.version,
+		memory: JSON.stringify(process.memoryUsage()),
+		path: process.execPath,
+		id: process.pid,
+		pathCorriente: process.cwd(),
+	});
+});
+
+app.get("/randoms", (req, res) => {
+	let cant = req.query.cant || 500000000;
+
+	const forked = fork("BE/server/randoms.js");
+
+	forked.on("message", (result) => {
+		return res.status(200).json(result);
+	});
+
+	forked.send({ cant });
+});
+
+process.on("exit", function (codigo) {
+	console.log("saliendo del proceso con código de salida", codigo);
+});
+
 // Server
 server.listen(PORT, function () {
-	dbMongo.conexion("mongodb://localhost:27017/ecommerce");
+	dbMongo.conexion(process.env.DB_HOST);
 	console.log(`http://localhost:${PORT}/`);
 });
